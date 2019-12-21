@@ -1,5 +1,6 @@
 import re
 from emoji import UNICODE_EMOJI
+from collections import Counter
 
 with open('chat.txt', 'r') as file:
 	data = file.read()
@@ -109,8 +110,88 @@ for i in stack:
 	else:
 		messages.append(i)
 
+people = []
+people_score = [0, 0]
+
+
+
+# for i in messages:
+# 	if i.has_nodes:
+# 		print(getDataPoint(i.parent))
+		#print([getDataPoint(j) for j in i.nodes])
+
+[people.append(getDataPoint(i.parent)[2]) for i in messages if getDataPoint(i.parent)[2] not in people]
+
+if people[0] == None:
+	people.remove(people[0])
+if len(people) > 2:
+	people.pop()
+
+messages.remove(messages[0])
 
 for i in messages:
-	if i.has_nodes:
-		print(getDataPoint(i.parent))
+	if people[0] in i.parent:
+		people_score[0] += 1
+	elif people[1] in i.parent:
+		people_score[1] += 1
 
+# for i in zip(people,people_score):
+# 	pass
+
+most_messages = max(zip(people, people_score))
+
+dates = []
+date_messages = []
+
+for i in messages:
+	if i.parent[0:10] not in dates:
+		dates.append(i.parent[0:10])
+
+[date_messages.append(0) for i in range(len(dates))]
+
+p1_date = []
+p2_date = []
+
+
+for i in messages:
+	for j in dates:
+		if i.parent[0:10] == j:
+			date_messages[dates.index(j)] += 1
+
+
+for i in messages:
+	for j in dates:
+		if j in i.parent and people[0] in i.parent:
+			p1_date.append(j)
+		elif j in i.parent and people[1] in i.parent:
+			p2_date.append(j)
+# for i in zip(dates, date_messages):
+# 	print(i)
+p1_date_data = Counter(p1_date)
+p2_date_data = Counter(p2_date)
+
+for i in zip(p2_date_data.keys(), p2_date_data.values()):
+	print(f"{i[0][3:5]}-{i[0][0:2]}")
+
+# person_1_date = []
+# person_2_date = []
+# person_1 = 0
+# person_2 = 0
+
+# for i in messages:
+# 	if people[0] == i.parent.split('m - ')[1].split(': ')[0]:
+# 		person_1 += 1
+# 		if i.parent[0:10] not in person_1_date:
+# 			person_1_date.append(i.parent[0:10])
+# 	else:
+# 		person_2 += 1
+# 		if i.parent[0:10] not in person_2_date:
+# 			person_2_date.append(i.parent[0:10])
+
+# print(person_1, person_2)
+
+# print(person_1_date, person_2_date)
+
+#print(date_messages)
+
+chat_activity = zip(dates, date_messages)
