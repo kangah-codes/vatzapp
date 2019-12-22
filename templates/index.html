@@ -226,7 +226,12 @@
             xaxis: {
                type: 'datetime',
             },
-            labels: [...Array({{ dates_msg|length }}).keys()].map(n => `${items[n]}`+'-'+gdate()[n]),
+            //labels: [...Array({{ dates_msg|length }}).keys()].map(n => console.log(`${items[n]}-${n}`)),
+            labels: [
+                {% for i in range(dates_msg|length) %}
+                    `${items[{{ i }}]}-{{ i }}`,
+                {% endfor %}
+            ],
             colors: [
                tabler.colors["blue"]
             ],

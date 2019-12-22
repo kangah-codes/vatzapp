@@ -2,7 +2,7 @@ import re
 from emoji import UNICODE_EMOJI
 from collections import Counter
 
-with open('chat.txt', 'r') as file:
+with open('../chat4.txt', 'r') as file:
 	data = file.read()
 
 class Item:
