@@ -113,8 +113,6 @@ for i in stack:
 people = []
 people_score = [0, 0]
 
-
-
 # for i in messages:
 # 	if i.has_nodes:
 # 		print(getDataPoint(i.parent))
@@ -138,7 +136,8 @@ for i in messages:
 # for i in zip(people,people_score):
 # 	pass
 
-most_messages = max(zip(people, people_score))
+most_messages = (people[people_score.index(max(people_score))], max(people_score))
+
 
 dates = []
 date_messages = []
@@ -152,7 +151,6 @@ for i in messages:
 p1_date = []
 p2_date = []
 
-
 for i in messages:
 	for j in dates:
 		if i.parent[0:10] == j:
@@ -165,33 +163,38 @@ for i in messages:
 			p1_date.append(j)
 		elif j in i.parent and people[1] in i.parent:
 			p2_date.append(j)
+
+for i in dates:
+	dates[dates.index(i)] = f"{i[3:5]}-{i[0:2]}"
+
 # for i in zip(dates, date_messages):
 # 	print(i)
 p1_date_data = Counter(p1_date)
 p2_date_data = Counter(p2_date)
 
+p1_final_data = []
+p2_final_data = []
+
+for i in zip(p1_date_data.keys(), p1_date_data.values()):
+	p1_final_data.append([f"{i[0][3:5]}-{i[0][0:2]}", i[1]])
+
 for i in zip(p2_date_data.keys(), p2_date_data.values()):
-	print(f"{i[0][3:5]}-{i[0][0:2]}")
+	p2_final_data.append([f"{i[0][3:5]}-{i[0][0:2]}", i[1]])
 
-# person_1_date = []
-# person_2_date = []
-# person_1 = 0
-# person_2 = 0
+independent_dates = []
 
-# for i in messages:
-# 	if people[0] == i.parent.split('m - ')[1].split(': ')[0]:
-# 		person_1 += 1
-# 		if i.parent[0:10] not in person_1_date:
-# 			person_1_date.append(i.parent[0:10])
-# 	else:
-# 		person_2 += 1
-# 		if i.parent[0:10] not in person_2_date:
-# 			person_2_date.append(i.parent[0:10])
-
-# print(person_1, person_2)
-
-# print(person_1_date, person_2_date)
-
-#print(date_messages)
+for i in p1_final_data:
+	independent_dates.append(f"{i[0][3:5]}/{i[0][0:2]}")
 
 chat_activity = zip(dates, date_messages)
+
+most_percent = (most_messages[1]/len(messages))*100
+# print("Most messages")
+# print(most_messages)
+# print("=============")
+# print("Dates and messages")
+# for i in zip(dates, date_messages):
+# 	print(i)
+# print("=============")
+# print(p1_final_data)
+# print(p2_final_data)

@@ -17,18 +17,11 @@
     <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
     <title>Vatzapp</title>
     <!-- Libs CSS -->
-    <link href="dist/libs/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
-    <link href="dist/libs/selectize/dist/css/selectize.css" rel="stylesheet"/>
-    <link href="dist/libs/fullcalendar/core/main.min.css" rel="stylesheet"/>
-    <link href="dist/libs/fullcalendar/daygrid/main.min.css" rel="stylesheet"/>
-    <link href="dist/libs/fullcalendar/timegrid/main.min.css" rel="stylesheet"/>
-    <link href="dist/libs/fullcalendar/list/main.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <!-- Tabler Core -->
-    <link href="dist/css/tabler.min.css" rel="stylesheet"/>
+    <link href="{{ url_for('static', filename='tabler.min.css') }}" rel="stylesheet"/>
     <!-- Tabler Plugins -->
-    <link href="dist/css/tabler-flags.min.css" rel="stylesheet"/>
-    <link href="dist/css/tabler-charts.min.css" rel="stylesheet"/>
+    <link href="{{ url_for('static', filename='tabler-charts.min.css') }}" rel="stylesheet"/>
     <style>
       body { display: none; }
     </style>
@@ -47,7 +40,7 @@
                   Overview
                 </div>
                 <h2 class="page-title">
-                  Chat between Joshua and Sebastian
+                  Chat between {{ people[0] }} and {{ people[1] }}
                 </h2>
               </div>
               <!-- Page title actions -->
@@ -70,18 +63,18 @@
                     <div class="ml-auto">
                     </div>
                   </div>
-                  <div class="h1 mb-3">Joshua - 1500 messages</div>
+                  <div class="h1 mb-3">{{ most[0] }} - {{ most[1] }} messages</div>
                   <div class="d-flex mb-2">
                     <div class="ml-auto">
                       <span class="text-green d-inline-flex align-items-center leading-none">
-                        75% <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon ml-1"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                        {{ percent|round() }}% <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon ml-1"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
                       </span>
                     </div>
                   </div>
                   <div class="progress progress-sm">
-                    <div class="progress-bar bg-blue" style="width: 95%" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-                      <span class="sr-only">75% Complete</span>
-                    </div>
+                    <div class="progress-bar bg-blue" style="width: {{ percent }}%" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+<!--                       <span class="sr-only">75% Complete</span>
+ -->                    </div>
                   </div>
                 </div>
               </div>
@@ -93,7 +86,7 @@
                     <div>Chat activity</div>
                   </div>
                   <div class="d-flex align-items-baseline">
-                    <div class="h1 mb-0 mr-2">4,300 messages</div>
+                    <div class="h1 mb-0 mr-2">{{ messages }} messages</div>
                   </div>
                 </div>
                 <div id="chart-revenue-bg" class="chart-sm"></div>
@@ -114,6 +107,14 @@
         </main>
       </div>
     </div>
+    <script type="text/javascript">
+      var items = [
+        {% for i in dates %}
+          String('{{ i }}'),
+        {% endfor %}
+      ]
+      console.log(items)
+    </script>
     <script>
       window.tabler_colors = {
       'blue': '#206bc4',
@@ -135,27 +136,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <script src="dist/libs/jquery/dist/jquery.min.js"></script>
-    <script src="dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="dist/libs/autosize/dist/autosize.min.js"></script>
-    <script src="dist/libs/imask/dist/imask.min.js"></script>
-    <script src="dist/libs/selectize/dist/js/standalone/selectize.min.js"></script>
-    <script src="dist/libs/apexcharts/dist/apexcharts.min.js"></script>
-    <script src="dist/libs/jqvmap/dist/jquery.vmap.min.js"></script>
-    <script src="dist/libs/jqvmap/dist/maps/jquery.vmap.world.js"></script>
-    <script src="dist/libs/jqvmap/dist/maps/jquery.vmap.usa.js"></script>
-    <script src="dist/libs/jqvmap/dist/maps/continents/jquery.vmap.europe.js"></script>
-    <script src="dist/libs/peity/jquery.peity.min.js"></script>
-    <script src="dist/libs/selectize/dist/js/selectize.min.js"></script>
-    <script src="dist/libs/fullcalendar/core/main.min.js"></script>
-    <script src="dist/libs/fullcalendar/daygrid/main.min.js"></script>
-    <script src="dist/libs/fullcalendar/interaction/main.min.js"></script>
-    <script src="dist/libs/fullcalendar/timegrid/main.min.js"></script>
-    <script src="dist/libs/fullcalendar/list/main.min.js"></script>
+    <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='autosize.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='apexcharts.min.js') }}"></script>
     <!-- Tabler Core -->
-    <script src="dist/js/tabler.min.js"></script>
+    <script src="{{ url_for('static', filename='tabler.min.js') }}"></script>
     <!-- Tabler Plugins -->
-    <script src="dist/js/tabler-charts.min.js"></script>
+    <script src="{{ url_for('static', filename='tabler-charts.min.js') }}"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function(event) {
          window.ApexCharts && (new ApexCharts(document.getElementById('chart-tasks'), {
@@ -164,14 +152,26 @@
                height: 240,
             },
             series: [{
-               name: 'Joshua',
-               data: [0, 0, 1, 2, 21, 9, 12]
+               name: '{{ people[0] }}',
+               data: [
+                  {% for i in p1_data %}
+                    {{ i[1] }},
+                  {% endfor %}
+               ]
             },{
-               name: 'Sebastian',
-               data: [0, 0, 1, 2, 7, 5, 6]
+               name: '{{ people[1] }}',
+               data: [
+                  {% for i in p2_data %}
+                    {{ i[1] }},
+                  {% endfor %}
+               ]
             }],
             xaxis: {
-               categories: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+               categories: [
+                  {% for i in two_graph %}
+                      '{{ i[3:5] }}',
+                  {% endfor %}
+               ],
             },
             colors: [
                tabler.colors["blue"],
@@ -186,7 +186,23 @@
          })).render();
       });
     </script>
+    {% block script %}
     <script>
+      dates = [];
+      function gdate(){
+        {% for i in range(dates|length) %}
+            dates.push({{ i }})
+        {% endfor %}
+        return dates;
+      }
+
+      date_dates = [
+        {% for i in dates %}
+            {{ i }},
+        {% endfor %}
+      ]
+
+      //console.log(gdate());
       document.addEventListener("DOMContentLoaded", function(event) {
          window.ApexCharts && (new ApexCharts(document.getElementById('chart-revenue-bg'), {
             chart: {
@@ -200,19 +216,24 @@
                opacity: .16
             },
             series: [{
-               name: 'Profits',
-               data: [37, 35, 44, 28]
+               name: 'Messages',
+               data: [
+                  {% for i in dates_msg %}
+                      {{ i }},
+                  {% endfor %}
+               ]
             }],
             xaxis: {
                type: 'datetime',
             },
-            labels: [...Array(30).keys()].map(n => `12-12-${n+10}`),
+            labels: [...Array({{ dates_msg|length }}).keys()].map(n => `${items[n]}`+'-'+gdate()[n]),
             colors: [
                tabler.colors["blue"]
             ],
          })).render();
       });
     </script>
+    {% endblock %}
     <script>
       document.body.style.display = 'block';
     </script>
