@@ -113,7 +113,6 @@
           String('{{ i }}'),
         {% endfor %}
       ]
-      console.log(items)
     </script>
     <script>
       window.tabler_colors = {
@@ -169,7 +168,7 @@
             xaxis: {
                categories: [
                   {% for i in two_graph %}
-                      '{{ i[3:5] }}',
+                      '{{ i[0:2] }}',
                   {% endfor %}
                ],
             },
@@ -226,12 +225,8 @@
             xaxis: {
                type: 'datetime',
             },
-            //labels: [...Array({{ dates_msg|length }}).keys()].map(n => console.log(`${items[n]}-${n}`)),
-            labels: [
-                {% for i in range(dates_msg|length) %}
-                    `${items[{{ i }}]}-{{ i }}`,
-                {% endfor %}
-            ],
+            labels: [...Array({{ dates_msg|length }}).keys()].map(n => `${items[n]}`),
+            
             colors: [
                tabler.colors["blue"]
             ],

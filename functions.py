@@ -2,7 +2,7 @@ import re
 from emoji import UNICODE_EMOJI
 from collections import Counter
 
-with open('../chat4.txt', 'r') as file:
+with open('chat.txt', 'r') as file:
 	data = file.read()
 
 class Item:
@@ -165,7 +165,7 @@ for i in messages:
 			p2_date.append(j)
 
 for i in dates:
-	dates[dates.index(i)] = f"{i[3:5]}-{i[0:2]}"
+	dates[dates.index(i)] = f"{i[6:10]}-{i[3:5]}-{i[0:2]}"
 
 # for i in zip(dates, date_messages):
 # 	print(i)
